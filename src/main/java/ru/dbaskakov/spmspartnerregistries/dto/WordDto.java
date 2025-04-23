@@ -14,8 +14,6 @@ public class WordDto {
     private String word3;
     private String word4;
     private String word5;
-
-    /*
     private String word6;
     private String word7;
     private String word8;
@@ -47,5 +45,4 @@ public class WordDto {
     private String word34;
     private String word35;
     private String word36;
-     */
 }

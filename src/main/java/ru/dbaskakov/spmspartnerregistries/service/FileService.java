@@ -18,9 +18,9 @@ public class FileService {
         this.wordMapper = wordMapper;
     }
 
-    public WordDto processFile(MultipartFile file) throws IOException {
+    public WordDto parseFile(MultipartFile file) throws IOException {
         String content = readFile(file);
-        return convertToDto(content);
+        return wordMapper.mapContentToDto(content);
     }
 
     private String readFile(MultipartFile file) throws IOException {
@@ -28,15 +28,4 @@ public class FileService {
             return reader.readLine();
         }
     }
-
-    private WordDto convertToDto(String content) {
-        if (!StringUtils.hasText(content)) {
-            throw new IllegalArgumentException("File is empty");
-        }
-
-        String[] words = content.split(";");
-
-        return wordMapper.arrayToDto(words);
-    }
-
 }
