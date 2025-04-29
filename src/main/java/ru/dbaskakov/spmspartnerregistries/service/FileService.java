@@ -1,10 +1,8 @@
 package ru.dbaskakov.spmspartnerregistries.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.dbaskakov.spmspartnerregistries.dto.WordDto;
-import ru.dbaskakov.spmspartnerregistries.mapper.WordMapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
