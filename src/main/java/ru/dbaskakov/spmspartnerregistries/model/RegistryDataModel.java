@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-public class RegistryData {
+public class RegistryDataModel {
     String paymentDateTime;
     String branchNumber;
     String cashierAtVtbol;
@@ -15,8 +15,8 @@ public class RegistryData {
     String payersFullName;
     String address;
     String paymentPeriod;
-    List<Counters> counters;
-    List<Services> services;
+    List<CountersModel> counters;
+    List<ServicesModel> services;
     BigDecimal additionalInsuranceAmount;
     String additionalInsuranceCurrencyCode;
     BigDecimal totalPaymentAmount;
