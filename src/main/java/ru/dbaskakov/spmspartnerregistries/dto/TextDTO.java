@@ -1,4 +1,4 @@
-package ru.dbaskakov.spmspartnerregistries.model;
+package ru.dbaskakov.spmspartnerregistries.dto;
 
 import lombok.Data;
 
@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-public class TextModel {
+public class TextDTO {
     private String externalRegistryId;
-    private List<RegistryDataModel> registryDataModel;
+    private List<RegistryDataDTO> registryDataDTO;
     private Integer checkRowRecordRow;
     private BigDecimal checkRowTotalAmountAcceptedAmount;
     private String checkRowTotalAmountAcceptedCurrencyCode;
@@ -18,5 +18,4 @@ public class TextModel {
     private String checkRowBankCommissionCurrencyCode;
     private String checkRowPaymentOrderNumber;
     private String checkRowPaymentDate;
-
 }
