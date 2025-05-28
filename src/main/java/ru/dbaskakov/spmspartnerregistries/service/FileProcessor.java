@@ -1,6 +1,7 @@
 package ru.dbaskakov.spmspartnerregistries.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.dbaskakov.spmspartnerregistries.dto.CountersDTO;
 import ru.dbaskakov.spmspartnerregistries.dto.RegistryDataDTO;

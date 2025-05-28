@@ -1,11 +1,3 @@
 spring:
   application:
     name: spms-partner-registries
-
-app:
-  file:
-    input-dir: ./input
-    processed-dir: ./processed
-    error-dir: ./error
-    pattern: "\\d{10,12}_\\d{20}_\\d{3}_\\{4}\\.txt$"
-    poling-interval: 600000
