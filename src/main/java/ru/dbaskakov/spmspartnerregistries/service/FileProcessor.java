@@ -1,8 +1,11 @@
 package ru.dbaskakov.spmspartnerregistries.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import ru.dbaskakov.spmspartnerregistries.dto.CountersDTO;
 import ru.dbaskakov.spmspartnerregistries.dto.RegistryDataDTO;
 import ru.dbaskakov.spmspartnerregistries.dto.ServicesDTO;
@@ -19,10 +22,38 @@ import java.util.Collections;
 @Service
 @RequiredArgsConstructor
 public class FileProcessor {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final RestTemplate restTemplate;
     private final TextMapper textMapper;
 
-    //Reading files
-    public TextModel processFile(String filePath) throws IOException {
+    //Address WireMock (or real API end-point address) from application.yaml
+    @Value("${external.api.base-url}")
+    private String externalApiBaseUrl;
+
+    /**
+     * Reading file, parsing, mapping, serialize to JSON and send POST request
+     * @Param filePath - path file
+     * @return  HTTP status-code
+     */
+    public HttpStatusCode processFileAndSendJson(String filePath) throws Exception {
+        TextDTO textDTO = readAndParseFile(filePath);
+        TextModel textModel = textMapper.toModel(textDTO);
+        String jsonPayload = objectMapper.writeValueAsString(textModel);
+
+        // Make HTTP request
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> request = new HttpEntity<>(jsonPayload, headers);
+
+        //Send POST request on WireMock or real API end-point
+        ResponseEntity<Void> response = restTemplate.postForEntity(
+                externalApiBaseUrl + "/api/data", request, Void.class);
+
+        return response.getStatusCode();
+    }
+
+    // --- Method's reading and parsing file ---
+    private TextDTO readAndParseFile(String filePath) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line = reader.readLine();
             if (line == null) {
@@ -32,14 +63,12 @@ public class FileProcessor {
             if (fields.length != 36) {
                 throw new IllegalArgumentException("Expected 36 fields, got: " + fields.length);
             }
-            //Create DTO
-            TextDTO textDTO = parseFieldsToTextDTO(fields);
 
-            //Mapping DTO to Model
-            return textMapper.toModel(textDTO);
+            return parseFieldsToTextDTO(fields);
         }
     }
 
+    //Parse lines to DTO
     private TextDTO parseFieldsToTextDTO(String[] fields) {
         TextDTO textDTO = new TextDTO();
 
