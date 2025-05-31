@@ -1,3 +1,7 @@
 spring:
   application:
     name: spms-partner-registries
+
+external:
+  api:
+    base-url: "http://localhost:8090"

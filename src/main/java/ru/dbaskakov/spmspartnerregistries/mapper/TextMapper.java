@@ -10,8 +10,8 @@ import ru.dbaskakov.spmspartnerregistries.model.TextModel;
 public interface TextMapper {
     TextMapper INSTANCE = Mappers.getMapper(TextMapper.class);
 
-    @Mapping(target = "registryDataDTO", source = "registryDataModel")
+    @Mapping(source = "registryDataModel", target = "registryDataDTO")
     TextDTO toDto(TextModel textModel);
-    @Mapping(target = "registryDataModel", source = "registryDataDTO")
+    @Mapping(source = "registryDataDTO", target = "registryDataModel")
     TextModel toModel(TextDTO textDTO);
 }
