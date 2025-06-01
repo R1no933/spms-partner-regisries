@@ -14,14 +14,19 @@ import ru.dbaskakov.spmspartnerregistries.mapper.TextMapper;
 import ru.dbaskakov.spmspartnerregistries.model.TextModel;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
 public class FileProcessor {
+    //Add pattern for file name
+    private static final Pattern FILE_NAME_PATTERN = Pattern
+            .compile("\"^(\\\\d{10}|\\\\d{12})_\\\\d{20}_\\\\d{3}_\\\\d{4}\\\\.txt$\"");
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final RestTemplate restTemplate;
     private final TextMapper textMapper;
@@ -36,6 +41,11 @@ public class FileProcessor {
      * @return  HTTP status-code
      */
     public HttpStatusCode processFileAndSendJson(String filePath) throws Exception {
+        String fileName = new File(filePath).getName();
+        if (!FILE_NAME_PATTERN.matcher(fileName).matches()) {
+            throw new IllegalArgumentException("File name doesn't expect file name pattern 10(12)numbers" +
+                    "_20numbers_3numbers_MMDD.txt");
+        }
         TextDTO textDTO = readAndParseFile(filePath);
         TextModel textModel = textMapper.toModel(textDTO);
         String jsonPayload = objectMapper.writeValueAsString(textModel);
