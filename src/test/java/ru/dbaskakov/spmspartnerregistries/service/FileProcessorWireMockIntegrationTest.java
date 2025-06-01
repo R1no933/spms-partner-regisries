@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.wiremock.spring.ConfigureWireMock;
 import org.wiremock.spring.EnableWireMock;
 
+import java.io.File;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -41,7 +42,9 @@ public class FileProcessorWireMockIntegrationTest {
                 .willReturn(noContent()));
 
         // Test file path
-        String testFilePath = getClass().getClassLoader().getResource("testFile.txt").getFile();
+        String testFilePath = getClass().getClassLoader().getResource("123456789012_12345678901234567890_001_0625.txt").getFile();
+        System.out.println("File path is: " + testFilePath);
+        System.out.println("File name is: " + new File(testFilePath).getName());
 
         var status = fileProcessor.processFileAndSendJson(testFilePath);
         assertEquals(204, status.value());

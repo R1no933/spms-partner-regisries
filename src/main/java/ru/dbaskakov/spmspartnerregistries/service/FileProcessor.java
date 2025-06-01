@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 public class FileProcessor {
     //Add pattern for file name
     private static final Pattern FILE_NAME_PATTERN = Pattern
-            .compile("\"^(\\\\d{10}|\\\\d{12})_\\\\d{20}_\\\\d{3}_\\\\d{4}\\\\.txt$\"");
+            .compile("^(?:\\d{10}|\\d{12})_\\d{20}_\\d{3}_\\d{4}\\.txt$");
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final RestTemplate restTemplate;
     private final TextMapper textMapper;
@@ -42,6 +42,7 @@ public class FileProcessor {
      */
     public HttpStatusCode processFileAndSendJson(String filePath) throws Exception {
         String fileName = new File(filePath).getName();
+        System.out.println("Matches pattern: " + FILE_NAME_PATTERN.matcher(fileName).matches());
         if (!FILE_NAME_PATTERN.matcher(fileName).matches()) {
             throw new IllegalArgumentException("File name doesn't expect file name pattern 10(12)numbers" +
                     "_20numbers_3numbers_MMDD.txt");
@@ -70,7 +71,7 @@ public class FileProcessor {
                 throw new IllegalArgumentException("Empty file");
             }
             String[] fields = line.split(";", -1);
-            if (fields.length != 36) {
+            if (fields.length != 37) {
                 throw new IllegalArgumentException("Expected 36 fields, got: " + fields.length);
             }
 
