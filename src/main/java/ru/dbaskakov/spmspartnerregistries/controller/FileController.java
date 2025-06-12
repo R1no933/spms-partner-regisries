@@ -1,7 +1,6 @@
 package ru.dbaskakov.spmspartnerregistries.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,17 +18,14 @@ public class FileController {
     /**
      * Endpoint for processing file on file path
      * parsing and send json on service
+     *
      * @param filePath - file path on server
      * @return HTTP status code
      */
 
     @PostMapping("/process-file")
-    public ResponseEntity<String> processFile(@RequestParam String filePath) {
-        try {
-            HttpStatusCode statusCode = fileProcessor.processFileAndSendJson(filePath);
-            return ResponseEntity.status(statusCode).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatusCode.valueOf(500)).build();
-        }
+    public ResponseEntity<String> processFile(@RequestParam String filePath) throws Exception {
+        HttpStatusCode statusCode = fileProcessor.processFileAndSendJson(filePath);
+        return ResponseEntity.status(statusCode).build();
     }
 }

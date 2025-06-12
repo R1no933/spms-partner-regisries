@@ -21,7 +21,7 @@ import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
-public class FileProcessor {
+public class FileProcessor implements FileProcessorDelegate{
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private final RestTemplate restTemplate;
     private final TextMapper textMapper;
@@ -36,8 +36,8 @@ public class FileProcessor {
      * @return  HTTP status-code
      */
     public HttpStatusCode processFileAndSendJson(String filePath) throws Exception {
-        TextDTO textDTO = readAndParseFile(filePath);
-        TextModel textModel = textMapper.toModel(textDTO);
+        var textDTO = readAndParseFile(filePath);
+        var textModel = textMapper.toModel(textDTO);
         String jsonPayload = objectMapper.writeValueAsString(textModel);
 
         // Make HTTP request
