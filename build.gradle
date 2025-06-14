@@ -29,6 +29,12 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom 'org.keycloak.bom:keycloak-adapter-bom:20.0.3'
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -38,6 +44,10 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.5.0'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.5.0'
+    implementation 'org.springframework.integration:spring-integration-security:6.2.11'
+    implementation 'org.keycloak:keycloak-spring-boot-starter:25.0.3'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok:1.18.38'
@@ -50,6 +60,8 @@ dependencies {
     testImplementation 'org.wiremock.integrations:wiremock-spring-boot:3.6.0'
     testImplementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
     testImplementation 'com.google.guava:guava:33.3.1-jre'
+    testImplementation 'org.springframework.security:spring-security-test'
+    runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 
 tasks.named('test') {

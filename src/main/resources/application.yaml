@@ -1,7 +1,30 @@
 spring:
   application:
     name: spms-partner-registries
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8085/realms/spms-realm
+          jwk-set-uri: http://localhost:8085/realms/spms-realm/protocol/openid-connect/certs
 
 external:
   api:
     base-url: "http://localhost:8090"
+
+server:
+  port: 8081
+
+keycloak:
+  realm: spms-realm
+  auth-server-url: http://localhost:8085/
+  resource: spms-client
+  public-client: true
+  ssl-required: external
+  use-resource-role-mappings: true
+  bearer-only: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    ru.dbaskakov.spmspartnerregistries: DEBUG
